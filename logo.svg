@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none">
+  <defs>
+    <linearGradient id="lg-aqua" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00e5ff"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="lg-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#0b1e3f" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#050a1a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- background hexagon pattern (subtle) -->
+  <g opacity="0.15" stroke="#38bdf8" stroke-width="1" fill="none">
+    <polygon points="200,80 240,103 240,150 200,173 160,150 160,103"/>
+    <polygon points="120,150 160,173 160,220 120,243 80,220 80,173"/>
+    <polygon points="280,150 320,173 320,220 280,243 240,220 240,173"/>
+    <polygon points="200,220 240,243 240,290 200,313 160,290 160,243"/>
+  </g>
+
+  <!-- Diamond / parallelogram frame -->
+  <g filter="url(#glow)" opacity="0.9">
+    <path d="M 90 280 L 200 100 L 310 280 L 200 300 Z" stroke="url(#lg-purple)" stroke-width="3" fill="none" opacity="0.85"/>
+  </g>
+
+  <!-- Stylized N - left aqua -->
+  <g filter="url(#glow)">
+    <path d="M 130 270 L 130 140 M 130 140 L 200 240" stroke="url(#lg-aqua)" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M 145 270 L 145 155 M 145 155 L 215 250" stroke="url(#lg-aqua)" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.7"/>
+  </g>
+
+  <!-- Stylized N - right purple -->
+  <g filter="url(#glow)">
+    <path d="M 270 270 L 270 140 M 270 140 L 200 240" stroke="url(#lg-purple)" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M 255 270 L 255 155 M 255 155 L 185 250" stroke="url(#lg-purple)" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.7"/>
+  </g>
+
+  <!-- Connector dots -->
+  <g filter="url(#glow)">
+    <circle cx="120" cy="265" r="6" fill="#00e5ff"/>
+    <circle cx="105" cy="245" r="4" fill="#00e5ff"/>
+    <circle cx="290" cy="180" r="6" fill="#c084fc"/>
+    <circle cx="305" cy="200" r="4" fill="#c084fc"/>
+  </g>
+
+  <!-- NEURA text -->
+  <text x="200" y="360" font-family="Space Grotesk, sans-serif" font-size="46" font-weight="700" letter-spacing="8" fill="#f4f9ff" text-anchor="middle">NEURA</text>
+</svg>

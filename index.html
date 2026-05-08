@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NEURA · Capítulo Estudiantil de Sistemas Computacionales</title>
+<link rel="icon" href="LogoN.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --aqua: #00e5ff;
+    --sky: #38bdf8;
+    --blue-deep: #0b1e3f;
+    --blue-night: #050a1a;
+    --purple: #8b5cf6;
+    --purple-light: #c084fc;
+    --purple-deep: #6d28d9;
+    --white: #f4f9ff;
+    --gray: #94a3b8;
+    --gray-dark: #475569;
+    --gradient-main: linear-gradient(135deg, #00e5ff 0%, #38bdf8 35%, #8b5cf6 100%);
+    --gradient-soft: linear-gradient(135deg, rgba(0,229,255,0.15), #8b5cf626);
+    --glow-aqua: 0 0 24px rgba(0,229,255,0.45);
+    --glow-purple: 0 0 24px rgba(139,92,246,0.45);
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--blue-night);
+    color: var(--white);
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body.no-scroll { overflow: hidden; }
+
+  /* Animated background grid */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+  }
+
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+    will-change: transform;
+    transition: transform 1.2s var(--ease-smooth);
+  }
+  .glow-orb.one { top: -100px; left: -100px; width: 500px; height: 500px; background: var(--aqua); animation: float 22s infinite ease-in-out; }
+  .glow-orb.two { bottom: -100px; right: -100px; width: 600px; height: 600px; background: var(--purple); animation: float 28s infinite ease-in-out reverse; }
+  .glow-orb.three { top: 40%; left: 50%; width: 400px; height: 400px; background: var(--sky); animation: float 32s infinite ease-in-out; opacity: 0.25; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -80px) scale(1.05); }
+  }
+
+  /* === BOOT ANIMATION === */
+  #boot-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8vh 8vw;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--aqua);
+    overflow: hidden;
+  }
+
+  .scanline {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0,229,255,0.04) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scan 8s linear infinite;
+  }
+  @keyframes scan {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+  }
+
+  .boot-line {
+    font-size: clamp(11px, 1.4vw, 14px);
+    margin-bottom: 4px;
+    opacity: 0;
+    white-space: pre;
+    letter-spacing: 0.5px;
+    transform: translateX(-10px);
+    transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
+  }
+  .boot-line.show { opacity: 1; transform: translateX(0); }
+
+  .boot-line.success { color: #4ade80; }
+  .boot-line.warn { color: #fbbf24; }
+  .boot-line.brand { color: var(--purple-light); }
+
+  .boot-logo {
+    margin-top: 30px;
+    font-size: clamp(40px, 8vw, 80px);
+    font-weight: 700;
+    letter-spacing: 8px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  .boot-logo.show {
+    animation: bootLogo 1.6s var(--ease-smooth) forwards;
+  }
+  @keyframes bootLogo {
+    0% { opacity: 0; transform: scale(0.5); filter: blur(20px); }
+    50% { opacity: 1; filter: blur(0); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0); }
+  }
+
+  .boot-bar-wrap {
+    margin-top: 30px;
+    width: min(450px, 80%);
+    height: 4px;
+    background: rgba(0,229,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.5s var(--ease-smooth);
+  }
+  .boot-bar-wrap.show { opacity: 1; }
+  .boot-bar {
+    width: 0;
+    height: 100%;
+    background: var(--gradient-main);
+    box-shadow: var(--glow-aqua);
+    animation: loadBar 2.6s var(--ease-smooth) forwards;
+    animation-delay: 1.2s;
+  }
+  @keyframes loadBar {
+    to { width: 100%; }
+  }
+
+  #boot-screen.fade-out {
+    animation: fadeBoot 1.2s var(--ease-smooth) forwards;
+  }
+  @keyframes fadeBoot {
+    to { opacity: 0; visibility: hidden; transform: scale(1.05); }
+  }
+
+  /* === NAVBAR === */
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(12px);
+    background: rgba(5,10,26,0.6);
+    border-bottom: 1px solid rgba(0,229,255,0.1);
+    transition: padding 0.6s var(--ease-smooth), background 0.6s var(--ease-smooth);
+  }
+  .navbar.scrolled { padding: 10px 6vw; background: rgba(5,10,26,0.85); }
+
+  .nav-logo {
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 4px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .nav-logo img {
+    height: 36px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(0,229,255,0.4));
+    transition: transform 0.6s var(--ease-smooth);
+  }
+  .nav-logo:hover img { transform: rotate(-8deg) scale(1.05); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    transition: color 0.4s var(--ease-smooth);
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-main);
+    transition: width 0.5s var(--ease-smooth);
+  }
+  .nav-links a:hover { color: var(--aqua); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .menu-toggle { display: none; background: none; border: none; color: var(--white); cursor: pointer; }
+
+  /* === HERO === */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 120px 6vw 60px;
+    z-index: 2;
+  }
+
+  .hero-logo {
+    width: clamp(140px, 18vw, 220px);
+    height: auto;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(40px) scale(0.9);
+    animation: heroLogoIn 1.6s var(--ease-smooth) 0.1s forwards;
+    filter: drop-shadow(0 0 30px rgba(0,229,255,0.4));
+  }
+  @keyframes heroLogoIn {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .logo-float { animation: logoFloat 6s ease-in-out infinite 1.7s; }
+  @keyframes logoFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+  }
+
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--aqua);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 1.4s var(--ease-smooth) 0.4s forwards;
+  }
+
+  .hero-title {
+    font-size: clamp(60px, 14vw, 180px);
+    font-weight: 700;
+    letter-spacing: clamp(4px, 1vw, 12px);
+    line-height: 0.95;
+    margin-bottom: 20px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0;
+    animation: fadeUp 1.6s var(--ease-smooth) 0.6s forwards;
+    text-shadow: 0 0 60px rgba(0,229,255,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--gray);
+    max-width: 720px;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 1.4s var(--ease-smooth) 0.8s forwards;
+  }
+
+  .hero-tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--purple-light);
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 1.4s var(--ease-smooth) 1s forwards;
+    letter-spacing: 2px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 1.4s var(--ease-smooth) 1.2s forwards;
+  }
+
+  .btn {
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.5s var(--ease-smooth);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-primary {
+    background: var(--gradient-main);
+    color: var(--blue-night);
+    box-shadow: var(--glow-aqua);
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,229,255,0.6); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(0,229,255,0.4);
+  }
+  .btn-ghost:hover { border-color: var(--aqua); background: rgba(0,229,255,0.1); transform: translateY(-3px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--aqua);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: fadeUp 1.4s var(--ease-smooth) 1.6s forwards, bounce 2.4s 2.5s infinite ease-in-out;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(10px); }
+  }
+
+  /* === SECTIONS === */
+  section {
+    position: relative;
+    padding: 120px 6vw;
+    z-index: 2;
+  }
+
+  .section-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--aqua);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-tag::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--aqua);
+  }
+
+  .section-title {
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+  }
+
+  .section-title .accent {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-lead {
+    font-size: 18px;
+    color: var(--gray);
+    max-width: 720px;
+    margin-bottom: 60px;
+  }
+
+  /* Reveal animation - SMOOTHER */
+  .reveal {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: opacity 1.4s var(--ease-smooth), transform 1.4s var(--ease-smooth);
+    will-change: transform, opacity;
+  }
+  .reveal.is-visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+  .reveal-delay-4 { transition-delay: 0.6s; }
+  .reveal-delay-5 { transition-delay: 0.75s; }
+  .reveal-delay-6 { transition-delay: 0.9s; }
+  .reveal-delay-7 { transition-delay: 1.05s; }
+  .reveal-delay-8 { transition-delay: 1.2s; }
+
+  /* === ABOUT / MISSION VISION === */
+  .mv-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  .mv-card {
+    background: linear-gradient(160deg, rgba(0,229,255,0.06), rgba(139,92,246,0.06));
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 20px;
+    padding: 50px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.7s var(--ease-smooth), border-color 0.7s var(--ease-smooth), box-shadow 0.7s var(--ease-smooth);
+  }
+  .mv-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-main);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.9s var(--ease-smooth);
+  }
+  .mv-card:hover { transform: translateY(-10px); border-color: var(--aqua); box-shadow: 0 20px 50px rgba(0,229,255,0.15); }
+  .mv-card:hover::before { transform: scaleX(1); }
+
+  .mv-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-soft);
+    margin-bottom: 24px;
+    color: var(--aqua);
+  }
+  .mv-card h3 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .mv-card.mision h3 { color: var(--aqua); }
+  .mv-card.vision h3 { color: var(--purple-light); }
+  .mv-card.vision .mv-icon { color: var(--purple-light); }
+
+  .mv-card p {
+    color: var(--gray);
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  /* === PROPUESTAS === */
+  .props-section { background: linear-gradient(180deg, transparent, rgba(11,30,63,0.4), transparent); }
+
+  .props-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  .category {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .category-header {
+    position: sticky;
+    top: 120px;
+  }
+
+  .category-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--aqua);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .category-title {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 700;
+    line-height: 1.15;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .category-line {
+    width: 60px;
+    height: 3px;
+    background: var(--gradient-main);
+    margin-top: 20px;
+    border-radius: 2px;
+  }
+
+  .props-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .prop-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(0,229,255,0.12);
+    border-radius: 16px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s var(--ease-smooth);
+    backdrop-filter: blur(10px);
+  }
+  .prop-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.08), transparent);
+    transition: left 1s var(--ease-smooth);
+  }
+  .prop-card:hover {
+    border-color: var(--aqua);
+    transform: translateX(10px);
+    box-shadow: -10px 0 30px rgba(0,229,255,0.1);
+  }
+  .prop-card:hover::before { left: 100%; }
+
+  .prop-card h4 {
+    font-size: 19px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .prop-card h4::before {
+    content: '▸';
+    color: var(--aqua);
+    font-size: 14px;
+  }
+
+  .prop-card p {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* === STATS / VALUES === */
+  .values-strip {
+    background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(139,92,246,0.06));
+    border-top: 1px solid rgba(0,229,255,0.15);
+    border-bottom: 1px solid rgba(139,92,246,0.15);
+    padding: 60px 6vw;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    text-align: center;
+  }
+
+  .value-item .num {
+    font-size: clamp(40px, 5vw, 56px);
+    font-weight: 700;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+  .value-item .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 12px;
+  }
+
+  /* === MESA DIRECTIVA === */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .member-card {
+    position: relative;
+    background: linear-gradient(160deg, rgba(0,229,255,0.04), rgba(139,92,246,0.04));
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 20px;
+    padding: 28px 22px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.7s var(--ease-smooth), border-color 0.7s var(--ease-smooth), box-shadow 0.7s var(--ease-smooth);
+    text-align: center;
+  }
+
+  .member-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-soft);
+    opacity: 0;
+    transition: opacity 0.6s var(--ease-smooth);
+    z-index: 0;
+  }
+
+  .member-card:hover {
+    transform: translateY(-12px);
+    border-color: var(--aqua);
+    box-shadow: 0 20px 60px rgba(0,229,255,0.15);
+  }
+  .member-card:hover::before { opacity: 1; }
+  .member-card:hover .member-photo { transform: scale(1.05); border-color: var(--aqua); }
+  .member-card:hover .member-photo::after { opacity: 0.5; }
+
+  .member-card > * { position: relative; z-index: 1; }
+
+  .member-photo {
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,229,255,0.4);
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0,229,255,0.1), rgba(139,92,246,0.1));
+    transition: transform 0.7s var(--ease-smooth), border-color 0.7s var(--ease-smooth);
+  }
+  .member-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 30px rgba(0,229,255,0.4);
+    opacity: 0.3;
+    transition: opacity 0.6s var(--ease-smooth);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .member-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s var(--ease-smooth);
+  }
+
+  .member-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--aqua);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .member-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+    margin-bottom: 14px;
+    min-height: 44px;
+  }
+
+  .member-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--purple-light);
+    letter-spacing: 1px;
+    opacity: 0.7;
+    transition: opacity 0.4s var(--ease-smooth);
+  }
+  .member-card:hover .member-cta { opacity: 1; }
+  .member-cta::after { content: '→'; transition: transform 0.4s var(--ease-smooth); }
+  .member-card:hover .member-cta::after { transform: translateX(4px); }
+
+  /* === MODAL === */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,10,26,0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s var(--ease-smooth), visibility 0.6s var(--ease-smooth);
+  }
+  .modal-overlay.open { opacity: 1; visibility: visible; }
+
+  .modal {
+    background: linear-gradient(160deg, #0b1e3f, #050a1a);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 24px;
+    max-width: 540px;
+    width: 100%;
+    padding: 50px 40px 40px;
+    position: relative;
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+    transition: transform 0.7s var(--ease-smooth), opacity 0.7s var(--ease-smooth);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(0,229,255,0.15);
+    text-align: center;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); opacity: 1; }
+
+  .modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient-main);
+    border-radius: 24px 24px 0 0;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,229,255,0.3);
+    background: transparent;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s var(--ease-smooth);
+  }
+  .modal-close:hover { border-color: var(--aqua); color: var(--aqua); transform: rotate(90deg); }
+
+  .modal-photo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid;
+    border-image: var(--gradient-main) 1;
+    background: rgba(0,229,255,0.08);
+    box-shadow: 0 0 40px rgba(0,229,255,0.25);
+  }
+  .modal-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .modal-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--aqua);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .modal-name {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .modal-divider {
+    width: 50px;
+    height: 2px;
+    background: var(--gradient-main);
+    margin: 18px auto;
+    border-radius: 2px;
+  }
+
+  .modal-desc {
+    color: var(--gray);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* === CTA FINAL === */
+  .cta-final {
+    text-align: center;
+    padding: 140px 6vw;
+  }
+  .cta-final h2 {
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .cta-final h2 .accent {
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .cta-final p {
+    color: var(--gray);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto 40px;
+  }
+
+  /* === FOOTER === */
+  footer {
+    border-top: 1px solid rgba(0,229,255,0.15);
+    padding: 50px 6vw 30px;
+    text-align: center;
+    background: rgba(5,10,26,0.7);
+    position: relative;
+    z-index: 2;
+  }
+  footer .footer-logo-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  footer .footer-logo-wrap img {
+    height: 80px;
+    width: auto;
+    filter: drop-shadow(0 0 16px rgba(0,229,255,0.4));
+  }
+  .footer-logo {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 8px;
+    background: var(--gradient-main);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  footer p {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--aqua);
+    margin-top: 20px;
+    opacity: 0.7;
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 1024px) {
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .menu-toggle { display: block; }
+    .nav-links.open {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: rgba(5,10,26,0.95);
+      padding: 30px;
+      gap: 20px;
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(0,229,255,0.15);
+    }
+    .mv-grid { grid-template-columns: 1fr; }
+    .category { grid-template-columns: 1fr; gap: 30px; }
+    .category-header { position: static; }
+    .values-grid { grid-template-columns: repeat(2, 1fr); gap: 40px 20px; }
+    .team-grid { grid-template-columns: 1fr; }
+    section { padding: 80px 6vw; }
+    .modal { padding: 40px 24px 30px; }
+  }
+
+  /* Cursor blink */
+  .cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1em;
+    background: var(--aqua);
+    animation: blink 1.2s infinite;
+    vertical-align: text-bottom;
+    margin-left: 4px;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* Smooth scrollbar */
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--blue-night); }
+  ::-webkit-scrollbar-thumb { background: linear-gradient(var(--aqua), var(--purple)); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb:hover { background: linear-gradient(var(--purple), var(--aqua)); }
+</style>
+</head>
+<body>
+
+<!-- ===== BOOT SCREEN ===== -->
+<div id="boot-screen">
+  <div class="scanline"></div>
+  <div id="boot-output"></div>
+  <div class="boot-logo" id="bootLogo">NEURA</div>
+  <div class="boot-bar-wrap" id="bootBarWrap"><div class="boot-bar"></div></div>
+</div>
+
+<!-- ===== BACKGROUND ===== -->
+<div class="grid-bg"></div>
+<div class="glow-orb one"></div>
+<div class="glow-orb two"></div>
+<div class="glow-orb three"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a href="#inicio" class="nav-logo">
+    <img src="LogoN.jpeg" alt="NEURA" />
+    NEURA
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#inicio">Inicio</a></li>
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#propuestas">Propuestas</a></li>
+    <li><a href="#mesa">Mesa Directiva</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="inicio">
+  <img src="logo.svg" alt="NEURA Logo" class="hero-logo logo-float" />
+  <div class="hero-eyebrow">// CAPÍTULO ESTUDIANTIL · ING. SISTEMAS COMPUTACIONALES</div>
+  <h1 class="hero-title">NEURA</h1>
+  <p class="hero-subtitle">Conectando talento, código y comunidad. Una planilla cercana, comprometida y apasionada por la tecnología.</p>
+  <p class="hero-tagline">&gt; Innovación · Comunidad · Tecnología<span class="cursor"></span></p>
+  <div class="hero-cta">
+    <a href="#propuestas" class="btn btn-primary">Ver propuestas →</a>
+    <a href="#mesa" class="btn btn-ghost">Conoce al equipo</a>
+  </div>
+  <div class="scroll-hint">SCROLL ↓</div>
+</section>
+
+<!-- ===== MISIÓN / VISIÓN ===== -->
+<section id="nosotros">
+  <div class="reveal">
+    <div class="section-tag">01 · Quiénes somos</div>
+    <h2 class="section-title">Más que una planilla, <span class="accent">una comunidad</span></h2>
+    <p class="section-lead">Somos estudiantes que creen en el poder de la tecnología para transformar nuestra etapa universitaria. Aquí cada idea cuenta y cada estudiante importa.</p>
+  </div>
+
+  <div class="mv-grid">
+    <div class="mv-card mision reveal reveal-delay-1">
+      <div class="mv-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+        </svg>
+      </div>
+      <h3>Misión</h3>
+      <p>Ser una planilla cercana y comprometida con los estudiantes, creando un espacio donde todos se sientan escuchados, apoyados y motivados a crecer tanto académica como personalmente. Buscamos impulsar actividades, proyectos y oportunidades que fortalezcan el aprendizaje, la innovación y la unión entre alumnos, construyendo una comunidad más participativa, humana y apasionada por la tecnología.</p>
+    </div>
+
+    <div class="mv-card vision reveal reveal-delay-2">
+      <div class="mv-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </div>
+      <h3>Visión</h3>
+      <p>Ser un capítulo estudiantil reconocido por su unión, iniciativa y compromiso con los alumnos, donde cada estudiante encuentre oportunidades para aprender, desarrollarse y sentirse parte de una comunidad que inspira, apoya y deja huella en su etapa universitaria.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== VALORES STRIP ===== -->
+<div class="values-strip">
+  <div class="values-grid">
+    <div class="value-item reveal reveal-delay-1">
+      <div class="num">04</div>
+      <div class="label">Ejes de trabajo</div>
+    </div>
+    <div class="value-item reveal reveal-delay-2">
+      <div class="num">10+</div>
+      <div class="label">Propuestas</div>
+    </div>
+    <div class="value-item reveal reveal-delay-3">
+      <div class="num">08</div>
+      <div class="label">Integrantes</div>
+    </div>
+    <div class="value-item reveal reveal-delay-4">
+      <div class="num">100%</div>
+      <div class="label">Estudiantes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROPUESTAS ===== -->
+<section id="propuestas" class="props-section">
+  <div class="reveal">
+    <div class="section-tag">02 · Propuestas</div>
+    <h2 class="section-title">Lo que vamos a <span class="accent">construir juntos</span></h2>
+    <p class="section-lead">Cuatro ejes estratégicos pensados para impulsar el crecimiento académico, profesional y humano de cada miembro del capítulo.</p>
+  </div>
+
+  <div class="props-categories">
+
+    <!-- Categoría 1 -->
+    <div class="category">
+      <div class="category-header reveal">
+        <div class="category-num">// 01</div>
+        <h3 class="category-title">Fortalecimiento académico y tecnológico</h3>
+        <div class="category-line"></div>
+      </div>
+      <div class="props-list">
+        <div class="prop-card reveal reveal-delay-1">
+          <h4>Continuidad de concursos académicos</h4>
+          <p>Dar seguimiento a eventos ya representativos del capítulo, como los concursos de redes, programación y SITEC, fomentando la participación, el aprendizaje y el desarrollo de habilidades técnicas.</p>
+        </div>
+        <div class="prop-card reveal reveal-delay-2">
+          <h4>Creación de un Hackatón estudiantil</h4>
+          <p>Implementar un hackatón abierto para alumnos de todos los semestres, promoviendo el trabajo en equipo, la innovación y la resolución de problemáticas mediante la tecnología.</p>
+        </div>
+        <div class="prop-card reveal reveal-delay-3">
+          <h4>Talleres y cursos complementarios</h4>
+          <p>Organizar talleres sobre temas de interés actual como desarrollo web, ciberseguridad, inteligencia artificial, GitHub y preparación profesional.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categoría 2 -->
+    <div class="category">
+      <div class="category-header reveal">
+        <div class="category-num">// 02</div>
+        <h3 class="category-title">Desarrollo profesional</h3>
+        <div class="category-line"></div>
+      </div>
+      <div class="props-list">
+        <div class="prop-card reveal reveal-delay-1">
+          <h4>Gestión de visitas industriales</h4>
+          <p>Buscar visitas a empresas y espacios relacionados con el área tecnológica para acercar a los estudiantes al entorno laboral y profesional.</p>
+        </div>
+        <div class="prop-card reveal reveal-delay-2">
+          <h4>Difusión de oportunidades académicas y laborales</h4>
+          <p>Compartir información sobre prácticas profesionales, servicio social, vacantes, becas y eventos externos relacionados con tecnología e innovación.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categoría 3 -->
+    <div class="category">
+      <div class="category-header reveal">
+        <div class="category-num">// 03</div>
+        <h3 class="category-title">Comunidad y bienestar estudiantil</h3>
+        <div class="category-line"></div>
+      </div>
+      <div class="props-list">
+        <div class="prop-card reveal reveal-delay-1">
+          <h4>Actividades de integración y convivencia</h4>
+          <p>Organizar dinámicas, torneos y eventos recreativos que fortalezcan la convivencia y participación dentro de la comunidad estudiantil.</p>
+        </div>
+        <div class="prop-card reveal reveal-delay-2">
+          <h4>Apoyo con insumos básicos en el capítulo</h4>
+          <p>Contar con productos de emergencia como papel higiénico y artículos de higiene femenina para apoyar a los estudiantes cuando sea necesario.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categoría 4 -->
+    <div class="category">
+      <div class="category-header reveal">
+        <div class="category-num">// 04</div>
+        <h3 class="category-title">Comunicación y participación</h3>
+        <div class="category-line"></div>
+      </div>
+      <div class="props-list">
+        <div class="prop-card reveal reveal-delay-1">
+          <h4>Redes sociales activas e informativas</h4>
+          <p>Mantener comunicación constante mediante publicaciones sobre eventos, convocatorias, oportunidades y logros estudiantiles.</p>
+        </div>
+        <div class="prop-card reveal reveal-delay-2">
+          <h4>Participación abierta para todos los semestres</h4>
+          <p>Fomentar un capítulo más inclusivo donde cualquier alumno pueda participar, proponer ideas y formar parte de las actividades.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== MESA DIRECTIVA ===== -->
+<section id="mesa">
+  <div class="reveal">
+    <div class="section-tag">03 · Mesa Directiva</div>
+    <h2 class="section-title">El equipo detrás <span class="accent">de NEURA</span></h2>
+    <p class="section-lead">Conoce a las personas que harán posible cada propuesta. Haz click en cada tarjeta para conocer más sobre cada integrante.</p>
+  </div>
+
+  <div class="team-grid" id="teamGrid">
+    <!-- Cards generadas con JS -->
+  </div>
+</section>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Cerrar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="modal-photo"><img id="modalPhoto" src="logo.svg" alt="" /></div>
+    <div class="modal-role" id="modalRole"></div>
+    <div class="modal-name" id="modalName"></div>
+    <div class="modal-divider"></div>
+    <div class="modal-desc" id="modalDesc"></div>
+  </div>
+</div>
+
+<!-- ===== CTA FINAL ===== -->
+<section class="cta-final" id="contacto">
+  <div class="reveal">
+    <h2>El futuro del capítulo<br/><span class="accent">se construye con tu voto.</span></h2>
+    <p>Únete a una propuesta que escucha, que incluye y que impulsa. NEURA es de todos, para todos.</p>
+    <div class="hero-cta" style="justify-content: center;">
+      <a href="#" class="btn btn-primary">Síguenos en redes →</a>
+      <a href="#propuestas" class="btn btn-ghost">Ver propuestas</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo-wrap">
+    <img src="logo.svg" alt="NEURA" />
+    <div class="footer-logo">NEURA</div>
+  </div>
+  <p>Capítulo Estudiantil de Ingeniería en Sistemas Computacionales</p>
+  <p>© 2026 NEURA · Hecho con ♥ por estudiantes para estudiantes</p>
+  <div class="footer-meta">// SYSTEM ONLINE · v1.0 · STATUS: READY</div>
+</footer>
+
+<script>
+  /* ============ MESA DIRECTIVA DATA ============ */
+  const team = [
+    {
+      role: "Presidenta",
+      name: "Guadalupe Rubí Cárdenas Perales",
+      photo: "logo.svg",
+      desc: "Lidera con visión y compromiso a la planilla NEURA. Apasionada por crear un capítulo más cercano y participativo, donde cada estudiante encuentre un espacio para crecer académica y personalmente. Su objetivo es construir una comunidad fuerte, unida y orientada al desarrollo tecnológico."
+    },
+    {
+      role: "Vicepresidenta",
+      name: "Ana Gabriela Guevara Martinez",
+      photo: "logo.svg",
+      desc: "Apoya la dirección estratégica del capítulo y se asegura de que cada propuesta avance con orden y propósito. Promueve la organización, el trabajo en equipo y la comunicación efectiva entre todos los integrantes para alcanzar los objetivos planteados."
+    },
+    {
+      role: "Secretaria",
+      name: "Ana Sofia Villareal Guajardo",
+      photo: "logo.svg",
+      desc: "Encargada del registro, documentación y seguimiento de las actividades del capítulo. Su atención al detalle y organización son clave para mantener al equipo y a la comunidad estudiantil informada de cada paso que damos."
+    },
+    {
+      role: "Secretaria",
+      name: "Dariana Monserrat Melchor Hernandez",
+      photo: "logo.svg",
+      desc: "Trabaja de la mano con la mesa directiva en la planeación y registro de las actividades. Su compromiso con el orden y la comunicación clara hace que la información llegue a todos los estudiantes de manera puntual y eficiente."
+    },
+    {
+      role: "Coordinador de Vinculación",
+      name: "Luis Emiliano García Sifuentes",
+      photo: "logo.svg",
+      desc: "Construye puentes entre el capítulo, las empresas y las oportunidades del entorno tecnológico. Gestiona visitas industriales, alianzas y conexiones que acercan a los estudiantes al mundo profesional y a su futuro laboral."
+    },
+    {
+      role: "Coordinadora de Redes Sociales",
+      name: "Ángela Penélope Marín López",
+      photo: "logo.svg",
+      desc: "Lleva la voz digital de NEURA. Diseña, publica y mantiene una comunicación constante a través de las redes sociales, asegurando que cada evento, convocatoria y logro del capítulo llegue a toda la comunidad estudiantil."
+    },
+    {
+      role: "Coordinador de Planeación",
+      name: "Federico Pérez Errisuriz",
+      photo: "logo.svg",
+      desc: "Responsable de planear, calendarizar y dar seguimiento a las actividades del capítulo. Su enfoque estructurado y proactivo permite que cada propuesta se ejecute en tiempo y forma, con resultados de calidad."
+    },
+    {
+      role: "Coordinador de Logística",
+      name: "Diego Rodriguez Sanchezverin",
+      photo: "logo.svg",
+      desc: "Se encarga de que todo esté listo para que cada evento, taller o concurso salga perfecto. Coordina espacios, recursos y detalles operativos para que la experiencia de los estudiantes sea siempre la mejor."
+    }
+  ];
+
+  /* Render team cards */
+  const teamGrid = document.getElementById('teamGrid');
+  team.forEach((member, i) => {
+    const delay = (i % 4) + 1;
+    const card = document.createElement('div');
+    card.className = `member-card reveal reveal-delay-${delay}`;
+    card.innerHTML = `
+      <div class="member-photo">
+        <img src="${member.photo}" alt="${member.name}" />
+      </div>
+      <div class="member-role">${member.role}</div>
+      <div class="member-name">${member.name}</div>
+      <div class="member-cta">Ver más</div>
+    `;
+    card.addEventListener('click', () => openModal(member));
+    teamGrid.appendChild(card);
+  });
+
+  /* Modal logic */
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modalClose = document.getElementById('modalClose');
+  const modalPhoto = document.getElementById('modalPhoto');
+  const modalRole = document.getElementById('modalRole');
+  const modalName = document.getElementById('modalName');
+  const modalDesc = document.getElementById('modalDesc');
+
+  function openModal(member) {
+    modalPhoto.src = member.photo;
+    modalPhoto.alt = member.name;
+    modalRole.textContent = member.role;
+    modalName.textContent = member.name;
+    modalDesc.textContent = member.desc;
+    modalOverlay.classList.add('open');
+    document.body.classList.add('no-scroll');
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.classList.remove('no-scroll');
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  /* ============ BOOT ANIMATION ============ */
+  const bootLines = [
+    { text: "[BOOT] Initializing NEURA system...", cls: "" },
+    { text: "[OK]   CPU core ........................ ONLINE", cls: "success" },
+    { text: "[OK]   Memory ........................... 16384 MB", cls: "success" },
+    { text: "[OK]   Network interface ................ CONNECTED", cls: "success" },
+    { text: "[INFO] Loading kernel modules...", cls: "" },
+    { text: "[OK]   module: comunidad.sys ............ LOADED", cls: "success" },
+    { text: "[OK]   module: innovacion.sys ........... LOADED", cls: "success" },
+    { text: "[OK]   module: tecnologia.sys ........... LOADED", cls: "success" },
+    { text: "[INFO] Mounting student database...", cls: "" },
+    { text: "[OK]   /sistemas mounted successfully", cls: "success" },
+    { text: "[INFO] Starting services...", cls: "" },
+    { text: "[OK]   academic_service ................. STARTED", cls: "success" },
+    { text: "[OK]   community_service ................ STARTED", cls: "success" },
+    { text: "[OK]   innovation_service ............... STARTED", cls: "success" },
+    { text: "[INFO] Authenticating user...", cls: "" },
+    { text: "[OK]   Welcome, estudiante!", cls: "brand" },
+    { text: "[INFO] Launching NEURA interface...", cls: "" },
+  ];
+
+  const bootOutput = document.getElementById('boot-output');
+  const bootScreen = document.getElementById('boot-screen');
+  const bootLogo = document.getElementById('bootLogo');
+  const bootBarWrap = document.getElementById('bootBarWrap');
+
+  let bootIdx = 0;
+  function nextBootLine() {
+    if (bootIdx >= bootLines.length) {
+      bootLogo.classList.add('show');
+      bootBarWrap.classList.add('show');
+      setTimeout(() => {
+        bootScreen.classList.add('fade-out');
+        setTimeout(() => bootScreen.style.display = 'none', 1200);
+      }, 4000);
+      return;
+    }
+    const line = document.createElement('div');
+    const data = bootLines[bootIdx];
+    line.className = 'boot-line ' + data.cls;
+    line.textContent = data.text;
+    bootOutput.appendChild(line);
+    requestAnimationFrame(() => {
+      setTimeout(() => line.classList.add('show'), 10);
+    });
+    bootIdx++;
+    setTimeout(nextBootLine, 110 + Math.random() * 80);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(nextBootLine, 400);
+  });
+
+  /* ============ NAVBAR SCROLL ============ */
+  const navbar = document.getElementById('navbar');
+  let scrollTicking = false;
+  window.addEventListener('scroll', () => {
+    if (!scrollTicking) {
+      requestAnimationFrame(() => {
+        if (window.scrollY > 50) navbar.classList.add('scrolled');
+        else navbar.classList.remove('scrolled');
+        scrollTicking = false;
+      });
+      scrollTicking = true;
+    }
+  });
+
+  /* ============ MOBILE MENU ============ */
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  /* ============ SCROLL REVEAL (smoother) ============ */
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
+
+  // Observe initial elements
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  // Observe member cards added by JS
+  document.querySelectorAll('.member-card').forEach(el => revealObserver.observe(el));
+
+  /* ============ PARALLAX FOR ORBS (smoother with lerp) ============ */
+  let mouseX = 0, mouseY = 0;
+  let orbX = [0, 0, 0], orbY = [0, 0, 0];
+  const orbs = document.querySelectorAll('.glow-orb');
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+  });
+
+  function animateOrbs() {
+    orbs.forEach((orb, i) => {
+      const factor = (i + 1) * 0.5;
+      const targetX = mouseX * factor;
+      const targetY = mouseY * factor;
+      orbX[i] += (targetX - orbX[i]) * 0.05;
+      orbY[i] += (targetY - orbY[i]) * 0.05;
+      orb.style.transform = `translate3d(${orbX[i].toFixed(2)}px, ${orbY[i].toFixed(2)}px, 0)`;
+    });
+    requestAnimationFrame(animateOrbs);
+  }
+  animateOrbs();
+</script>
+
+</body>
+</html>
