@@ -122,6 +122,19 @@
  
   .boot-logo {
     margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  .boot-logo .boot-logo-img {
+    width: clamp(80px, 12vw, 130px);
+    height: auto;
+    filter: drop-shadow(0 0 24px rgba(0,229,255,0.55));
+  }
+  .boot-logo .boot-logo-text {
     font-size: clamp(40px, 8vw, 80px);
     font-weight: 700;
     letter-spacing: 8px;
@@ -129,15 +142,14 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    opacity: 0;
-    transform: scale(0.8);
+    line-height: 1;
   }
   .boot-logo.show {
-    animation: bootLogo 1.6s var(--ease-smooth) forwards;
+    animation: bootLogo 1s var(--ease-smooth) forwards;
   }
   @keyframes bootLogo {
     0% { opacity: 0; transform: scale(0.5); filter: blur(20px); }
-    50% { opacity: 1; filter: blur(0); }
+    60% { opacity: 1; filter: blur(0); }
     100% { opacity: 1; transform: scale(1); filter: blur(0); }
   }
  
@@ -157,15 +169,15 @@
     height: 100%;
     background: var(--gradient-main);
     box-shadow: var(--glow-aqua);
-    animation: loadBar 2.6s var(--ease-smooth) forwards;
-    animation-delay: 1.2s;
+    animation: loadBar 1.1s var(--ease-smooth) forwards;
+    animation-delay: 0.3s;
   }
   @keyframes loadBar {
     to { width: 100%; }
   }
  
   #boot-screen.fade-out {
-    animation: fadeBoot 1.2s var(--ease-smooth) forwards;
+    animation: fadeBoot 0.7s var(--ease-smooth) forwards;
   }
   @keyframes fadeBoot {
     to { opacity: 0; visibility: hidden; transform: scale(1.05); }
@@ -973,7 +985,10 @@
 <div id="boot-screen">
   <div class="scanline"></div>
   <div id="boot-output"></div>
-  <div class="boot-logo" id="bootLogo">NEURA</div>
+  <div class="boot-logo" id="bootLogo">
+    <img src="img/LOGO.png" alt="NEURA" class="boot-logo-img" />
+    <div class="boot-logo-text">NEURA</div>
+  </div>
   <div class="boot-bar-wrap" id="bootBarWrap"><div class="boot-bar"></div></div>
 </div>
  
@@ -1356,8 +1371,8 @@
       bootBarWrap.classList.add('show');
       setTimeout(() => {
         bootScreen.classList.add('fade-out');
-        setTimeout(() => bootScreen.style.display = 'none', 1200);
-      }, 4000);
+        setTimeout(() => bootScreen.style.display = 'none', 700);
+      }, 1700);
       return;
     }
     const line = document.createElement('div');
@@ -1369,10 +1384,10 @@
       setTimeout(() => line.classList.add('show'), 10);
     });
     bootIdx++;
-    setTimeout(nextBootLine, 110 + Math.random() * 80);
+    setTimeout(nextBootLine, 55 + Math.random() * 45);
   }
   document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(nextBootLine, 400);
+    setTimeout(nextBootLine, 250);
   });
  
   /* ============ NAVBAR SCROLL ============ */
