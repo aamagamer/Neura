@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>NEURA · Capítulo Estudiantil de Sistemas Computacionales</title>
-<link rel="icon" href="LogoN.jpeg">
+<link rel="icon" href="img/LOGO.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -27,11 +27,11 @@
     --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
-
+ 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
+ 
   html { scroll-behavior: smooth; }
-
+ 
   body {
     font-family: 'Space Grotesk', sans-serif;
     background: var(--blue-night);
@@ -41,9 +41,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-
+ 
   body.no-scroll { overflow: hidden; }
-
+ 
   /* Animated background grid */
   .grid-bg {
     position: fixed;
@@ -56,7 +56,7 @@
     z-index: 0;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
   }
-
+ 
   .glow-orb {
     position: fixed;
     border-radius: 50%;
@@ -70,12 +70,12 @@
   .glow-orb.one { top: -100px; left: -100px; width: 500px; height: 500px; background: var(--aqua); animation: float 22s infinite ease-in-out; }
   .glow-orb.two { bottom: -100px; right: -100px; width: 600px; height: 600px; background: var(--purple); animation: float 28s infinite ease-in-out reverse; }
   .glow-orb.three { top: 40%; left: 50%; width: 400px; height: 400px; background: var(--sky); animation: float 32s infinite ease-in-out; opacity: 0.25; }
-
+ 
   @keyframes float {
     0%, 100% { transform: translate(0, 0) scale(1); }
     50% { transform: translate(50px, -80px) scale(1.05); }
   }
-
+ 
   /* === BOOT ANIMATION === */
   #boot-screen {
     position: fixed;
@@ -91,7 +91,7 @@
     color: var(--aqua);
     overflow: hidden;
   }
-
+ 
   .scanline {
     position: absolute;
     inset: 0;
@@ -104,7 +104,7 @@
     from { background-position: 0 0; }
     to { background-position: 0 100%; }
   }
-
+ 
   .boot-line {
     font-size: clamp(11px, 1.4vw, 14px);
     margin-bottom: 4px;
@@ -115,11 +115,11 @@
     transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
   }
   .boot-line.show { opacity: 1; transform: translateX(0); }
-
+ 
   .boot-line.success { color: #4ade80; }
   .boot-line.warn { color: #fbbf24; }
   .boot-line.brand { color: var(--purple-light); }
-
+ 
   .boot-logo {
     margin-top: 30px;
     font-size: clamp(40px, 8vw, 80px);
@@ -140,7 +140,7 @@
     50% { opacity: 1; filter: blur(0); }
     100% { opacity: 1; transform: scale(1); filter: blur(0); }
   }
-
+ 
   .boot-bar-wrap {
     margin-top: 30px;
     width: min(450px, 80%);
@@ -163,14 +163,14 @@
   @keyframes loadBar {
     to { width: 100%; }
   }
-
+ 
   #boot-screen.fade-out {
     animation: fadeBoot 1.2s var(--ease-smooth) forwards;
   }
   @keyframes fadeBoot {
     to { opacity: 0; visibility: hidden; transform: scale(1.05); }
   }
-
+ 
   /* === NAVBAR === */
   .navbar {
     position: fixed;
@@ -188,7 +188,7 @@
     transition: padding 0.6s var(--ease-smooth), background 0.6s var(--ease-smooth);
   }
   .navbar.scrolled { padding: 10px 6vw; background: rgba(5,10,26,0.85); }
-
+ 
   .nav-logo {
     font-weight: 700;
     font-size: 22px;
@@ -209,7 +209,7 @@
     transition: transform 0.6s var(--ease-smooth);
   }
   .nav-logo:hover img { transform: rotate(-8deg) scale(1.05); }
-
+ 
   .nav-links {
     display: flex;
     gap: 32px;
@@ -237,9 +237,9 @@
   }
   .nav-links a:hover { color: var(--aqua); }
   .nav-links a:hover::after { width: 100%; }
-
+ 
   .menu-toggle { display: none; background: none; border: none; color: var(--white); cursor: pointer; }
-
+ 
   /* === HERO === */
   .hero {
     position: relative;
@@ -252,7 +252,7 @@
     padding: 120px 6vw 60px;
     z-index: 2;
   }
-
+ 
   .hero-logo {
     width: clamp(140px, 18vw, 220px);
     height: auto;
@@ -265,13 +265,13 @@
   @keyframes heroLogoIn {
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
-
+ 
   .logo-float { animation: logoFloat 6s ease-in-out infinite 1.7s; }
   @keyframes logoFloat {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
   }
-
+ 
   .hero-eyebrow {
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
@@ -282,7 +282,7 @@
     opacity: 0;
     animation: fadeUp 1.4s var(--ease-smooth) 0.4s forwards;
   }
-
+ 
   .hero-title {
     font-size: clamp(60px, 14vw, 180px);
     font-weight: 700;
@@ -297,7 +297,7 @@
     animation: fadeUp 1.6s var(--ease-smooth) 0.6s forwards;
     text-shadow: 0 0 60px rgba(0,229,255,0.3);
   }
-
+ 
   .hero-subtitle {
     font-size: clamp(16px, 2vw, 22px);
     color: var(--gray);
@@ -306,7 +306,7 @@
     opacity: 0;
     animation: fadeUp 1.4s var(--ease-smooth) 0.8s forwards;
   }
-
+ 
   .hero-tagline {
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
@@ -316,7 +316,7 @@
     animation: fadeUp 1.4s var(--ease-smooth) 1s forwards;
     letter-spacing: 2px;
   }
-
+ 
   .hero-cta {
     display: flex;
     gap: 16px;
@@ -325,7 +325,7 @@
     opacity: 0;
     animation: fadeUp 1.4s var(--ease-smooth) 1.2s forwards;
   }
-
+ 
   .btn {
     padding: 16px 32px;
     border-radius: 50px;
@@ -348,19 +348,19 @@
     box-shadow: var(--glow-aqua);
   }
   .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 40px rgba(0,229,255,0.6); }
-
+ 
   .btn-ghost {
     background: transparent;
     color: var(--white);
     border: 1px solid rgba(0,229,255,0.4);
   }
   .btn-ghost:hover { border-color: var(--aqua); background: rgba(0,229,255,0.1); transform: translateY(-3px); }
-
+ 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(40px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
+ 
   .scroll-hint {
     position: absolute;
     bottom: 40px;
@@ -377,14 +377,14 @@
     0%, 100% { transform: translateX(-50%) translateY(0); }
     50% { transform: translateX(-50%) translateY(10px); }
   }
-
+ 
   /* === SECTIONS === */
   section {
     position: relative;
     padding: 120px 6vw;
     z-index: 2;
   }
-
+ 
   .section-tag {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -402,7 +402,7 @@
     height: 1px;
     background: var(--aqua);
   }
-
+ 
   .section-title {
     font-size: clamp(36px, 6vw, 64px);
     font-weight: 700;
@@ -410,21 +410,21 @@
     margin-bottom: 24px;
     letter-spacing: -1px;
   }
-
+ 
   .section-title .accent {
     background: var(--gradient-main);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
-
+ 
   .section-lead {
     font-size: 18px;
     color: var(--gray);
     max-width: 720px;
     margin-bottom: 60px;
   }
-
+ 
   /* Reveal animation - SMOOTHER */
   .reveal {
     opacity: 0;
@@ -441,7 +441,7 @@
   .reveal-delay-6 { transition-delay: 0.9s; }
   .reveal-delay-7 { transition-delay: 1.05s; }
   .reveal-delay-8 { transition-delay: 1.2s; }
-
+ 
   /* === ABOUT / MISSION VISION === */
   .mv-grid {
     display: grid;
@@ -471,7 +471,7 @@
   }
   .mv-card:hover { transform: translateY(-10px); border-color: var(--aqua); box-shadow: 0 20px 50px rgba(0,229,255,0.15); }
   .mv-card:hover::before { transform: scaleX(1); }
-
+ 
   .mv-icon {
     width: 60px;
     height: 60px;
@@ -493,34 +493,34 @@
   .mv-card.mision h3 { color: var(--aqua); }
   .mv-card.vision h3 { color: var(--purple-light); }
   .mv-card.vision .mv-icon { color: var(--purple-light); }
-
+ 
   .mv-card p {
     color: var(--gray);
     font-size: 16px;
     line-height: 1.8;
   }
-
+ 
   /* === PROPUESTAS === */
   .props-section { background: linear-gradient(180deg, transparent, rgba(11,30,63,0.4), transparent); }
-
+ 
   .props-categories {
     display: flex;
     flex-direction: column;
     gap: 80px;
   }
-
+ 
   .category {
     display: grid;
     grid-template-columns: 1fr 2fr;
     gap: 60px;
     align-items: start;
   }
-
+ 
   .category-header {
     position: sticky;
     top: 120px;
   }
-
+ 
   .category-num {
     font-family: 'JetBrains Mono', monospace;
     font-size: 14px;
@@ -528,7 +528,7 @@
     letter-spacing: 2px;
     margin-bottom: 12px;
   }
-
+ 
   .category-title {
     font-size: clamp(28px, 3.5vw, 40px);
     font-weight: 700;
@@ -538,7 +538,7 @@
     background-clip: text;
     color: transparent;
   }
-
+ 
   .category-line {
     width: 60px;
     height: 3px;
@@ -546,13 +546,13 @@
     margin-top: 20px;
     border-radius: 2px;
   }
-
+ 
   .props-list {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
-
+ 
   .prop-card {
     background: rgba(255,255,255,0.02);
     border: 1px solid rgba(0,229,255,0.12);
@@ -579,7 +579,7 @@
     box-shadow: -10px 0 30px rgba(0,229,255,0.1);
   }
   .prop-card:hover::before { left: 100%; }
-
+ 
   .prop-card h4 {
     font-size: 19px;
     font-weight: 600;
@@ -594,13 +594,13 @@
     color: var(--aqua);
     font-size: 14px;
   }
-
+ 
   .prop-card p {
     color: var(--gray);
     font-size: 15px;
     line-height: 1.7;
   }
-
+ 
   /* === STATS / VALUES === */
   .values-strip {
     background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(139,92,246,0.06));
@@ -608,14 +608,14 @@
     border-bottom: 1px solid rgba(139,92,246,0.15);
     padding: 60px 6vw;
   }
-
+ 
   .values-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     text-align: center;
   }
-
+ 
   .value-item .num {
     font-size: clamp(40px, 5vw, 56px);
     font-weight: 700;
@@ -633,14 +633,14 @@
     color: var(--gray);
     margin-top: 12px;
   }
-
+ 
   /* === MESA DIRECTIVA === */
   .team-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
   }
-
+ 
   .member-card {
     position: relative;
     background: linear-gradient(160deg, rgba(0,229,255,0.04), rgba(139,92,246,0.04));
@@ -652,7 +652,7 @@
     transition: transform 0.7s var(--ease-smooth), border-color 0.7s var(--ease-smooth), box-shadow 0.7s var(--ease-smooth);
     text-align: center;
   }
-
+ 
   .member-card::before {
     content: '';
     position: absolute;
@@ -662,7 +662,7 @@
     transition: opacity 0.6s var(--ease-smooth);
     z-index: 0;
   }
-
+ 
   .member-card:hover {
     transform: translateY(-12px);
     border-color: var(--aqua);
@@ -671,9 +671,9 @@
   .member-card:hover::before { opacity: 1; }
   .member-card:hover .member-photo { transform: scale(1.05); border-color: var(--aqua); }
   .member-card:hover .member-photo::after { opacity: 0.5; }
-
+ 
   .member-card > * { position: relative; z-index: 1; }
-
+ 
   .member-photo {
     width: 130px;
     height: 130px;
@@ -702,7 +702,7 @@
     display: block;
     transition: transform 0.8s var(--ease-smooth);
   }
-
+ 
   .member-role {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
@@ -711,7 +711,7 @@
     text-transform: uppercase;
     margin-bottom: 8px;
   }
-
+ 
   .member-name {
     font-size: 17px;
     font-weight: 600;
@@ -720,7 +720,7 @@
     margin-bottom: 14px;
     min-height: 44px;
   }
-
+ 
   .member-cta {
     display: inline-flex;
     align-items: center;
@@ -735,7 +735,7 @@
   .member-card:hover .member-cta { opacity: 1; }
   .member-cta::after { content: '→'; transition: transform 0.4s var(--ease-smooth); }
   .member-card:hover .member-cta::after { transform: translateX(4px); }
-
+ 
   /* === MODAL === */
   .modal-overlay {
     position: fixed;
@@ -752,7 +752,7 @@
     transition: opacity 0.6s var(--ease-smooth), visibility 0.6s var(--ease-smooth);
   }
   .modal-overlay.open { opacity: 1; visibility: visible; }
-
+ 
   .modal {
     background: linear-gradient(160deg, #0b1e3f, #050a1a);
     border: 1px solid rgba(0,229,255,0.3);
@@ -770,7 +770,7 @@
     overflow-y: auto;
   }
   .modal-overlay.open .modal { transform: translateY(0) scale(1); opacity: 1; }
-
+ 
   .modal::before {
     content: '';
     position: absolute;
@@ -781,7 +781,7 @@
     background: var(--gradient-main);
     border-radius: 24px 24px 0 0;
   }
-
+ 
   .modal-close {
     position: absolute;
     top: 18px;
@@ -799,7 +799,7 @@
     transition: all 0.4s var(--ease-smooth);
   }
   .modal-close:hover { border-color: var(--aqua); color: var(--aqua); transform: rotate(90deg); }
-
+ 
   .modal-photo {
     width: 150px;
     height: 150px;
@@ -812,7 +812,7 @@
     box-shadow: 0 0 40px rgba(0,229,255,0.25);
   }
   .modal-photo img { width: 100%; height: 100%; object-fit: cover; }
-
+ 
   .modal-role {
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
@@ -821,7 +821,7 @@
     text-transform: uppercase;
     margin-bottom: 10px;
   }
-
+ 
   .modal-name {
     font-size: 26px;
     font-weight: 700;
@@ -831,7 +831,7 @@
     background-clip: text;
     color: transparent;
   }
-
+ 
   .modal-divider {
     width: 50px;
     height: 2px;
@@ -839,13 +839,15 @@
     margin: 18px auto;
     border-radius: 2px;
   }
-
+ 
   .modal-desc {
     color: var(--gray);
     font-size: 15px;
     line-height: 1.8;
+    text-align: left;
+    white-space: pre-line;
   }
-
+ 
   /* === CTA FINAL === */
   .cta-final {
     text-align: center;
@@ -869,7 +871,7 @@
     max-width: 600px;
     margin: 0 auto 40px;
   }
-
+ 
   /* === FOOTER === */
   footer {
     border-top: 1px solid rgba(0,229,255,0.15);
@@ -913,12 +915,12 @@
     margin-top: 20px;
     opacity: 0.7;
   }
-
+ 
   /* === MOBILE === */
   @media (max-width: 1024px) {
     .team-grid { grid-template-columns: repeat(2, 1fr); }
   }
-
+ 
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .menu-toggle { display: block; }
@@ -943,7 +945,7 @@
     section { padding: 80px 6vw; }
     .modal { padding: 40px 24px 30px; }
   }
-
+ 
   /* Cursor blink */
   .cursor {
     display: inline-block;
@@ -958,7 +960,7 @@
     0%, 50% { opacity: 1; }
     51%, 100% { opacity: 0; }
   }
-
+ 
   /* Smooth scrollbar */
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: var(--blue-night); }
@@ -967,7 +969,7 @@
 </style>
 </head>
 <body>
-
+ 
 <!-- ===== BOOT SCREEN ===== -->
 <div id="boot-screen">
   <div class="scanline"></div>
@@ -975,17 +977,17 @@
   <div class="boot-logo" id="bootLogo">NEURA</div>
   <div class="boot-bar-wrap" id="bootBarWrap"><div class="boot-bar"></div></div>
 </div>
-
+ 
 <!-- ===== BACKGROUND ===== -->
 <div class="grid-bg"></div>
 <div class="glow-orb one"></div>
 <div class="glow-orb two"></div>
 <div class="glow-orb three"></div>
-
+ 
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
   <a href="#inicio" class="nav-logo">
-    <img src="LogoN.jpeg" alt="NEURA" />
+    <img src="img/LOGO.png" alt="NEURA" />
     NEURA
   </a>
   <ul class="nav-links" id="navLinks">
@@ -1003,10 +1005,10 @@
     </svg>
   </button>
 </nav>
-
+ 
 <!-- ===== HERO ===== -->
 <section class="hero" id="inicio">
-  <img src="logo.svg" alt="NEURA Logo" class="hero-logo logo-float" />
+  <img src="img/LOGO.png" alt="NEURA Logo" class="hero-logo logo-float" />
   <div class="hero-eyebrow">// CAPÍTULO ESTUDIANTIL · ING. SISTEMAS COMPUTACIONALES</div>
   <h1 class="hero-title">NEURA</h1>
   <p class="hero-subtitle">Conectando talento, código y comunidad. Una planilla cercana, comprometida y apasionada por la tecnología.</p>
@@ -1017,7 +1019,7 @@
   </div>
   <div class="scroll-hint">SCROLL ↓</div>
 </section>
-
+ 
 <!-- ===== MISIÓN / VISIÓN ===== -->
 <section id="nosotros">
   <div class="reveal">
@@ -1025,7 +1027,7 @@
     <h2 class="section-title">Más que una planilla, <span class="accent">una comunidad</span></h2>
     <p class="section-lead">Somos estudiantes que creen en el poder de la tecnología para transformar nuestra etapa universitaria. Aquí cada idea cuenta y cada estudiante importa.</p>
   </div>
-
+ 
   <div class="mv-grid">
     <div class="mv-card mision reveal reveal-delay-1">
       <div class="mv-icon">
@@ -1038,7 +1040,7 @@
       <h3>Misión</h3>
       <p>Ser una planilla cercana y comprometida con los estudiantes, creando un espacio donde todos se sientan escuchados, apoyados y motivados a crecer tanto académica como personalmente. Buscamos impulsar actividades, proyectos y oportunidades que fortalezcan el aprendizaje, la innovación y la unión entre alumnos, construyendo una comunidad más participativa, humana y apasionada por la tecnología.</p>
     </div>
-
+ 
     <div class="mv-card vision reveal reveal-delay-2">
       <div class="mv-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1051,7 +1053,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- ===== VALORES STRIP ===== -->
 <div class="values-strip">
   <div class="values-grid">
@@ -1073,7 +1075,7 @@
     </div>
   </div>
 </div>
-
+ 
 <!-- ===== PROPUESTAS ===== -->
 <section id="propuestas" class="props-section">
   <div class="reveal">
@@ -1081,9 +1083,9 @@
     <h2 class="section-title">Lo que vamos a <span class="accent">construir juntos</span></h2>
     <p class="section-lead">Cuatro ejes estratégicos pensados para impulsar el crecimiento académico, profesional y humano de cada miembro del capítulo.</p>
   </div>
-
+ 
   <div class="props-categories">
-
+ 
     <!-- Categoría 1 -->
     <div class="category">
       <div class="category-header reveal">
@@ -1106,7 +1108,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Categoría 2 -->
     <div class="category">
       <div class="category-header reveal">
@@ -1125,7 +1127,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Categoría 3 -->
     <div class="category">
       <div class="category-header reveal">
@@ -1144,7 +1146,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Categoría 4 -->
     <div class="category">
       <div class="category-header reveal">
@@ -1163,10 +1165,10 @@
         </div>
       </div>
     </div>
-
+ 
   </div>
 </section>
-
+ 
 <!-- ===== MESA DIRECTIVA ===== -->
 <section id="mesa">
   <div class="reveal">
@@ -1174,12 +1176,12 @@
     <h2 class="section-title">El equipo detrás <span class="accent">de NEURA</span></h2>
     <p class="section-lead">Conoce a las personas que harán posible cada propuesta. Haz click en cada tarjeta para conocer más sobre cada integrante.</p>
   </div>
-
+ 
   <div class="team-grid" id="teamGrid">
     <!-- Cards generadas con JS -->
   </div>
 </section>
-
+ 
 <!-- ===== MODAL ===== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal" id="modal">
@@ -1189,14 +1191,14 @@
         <line x1="6" y1="6" x2="18" y2="18"/>
       </svg>
     </button>
-    <div class="modal-photo"><img id="modalPhoto" src="logo.svg" alt="" /></div>
+    <div class="modal-photo"><img id="modalPhoto" src="img/LOGO.png" alt="" /></div>
     <div class="modal-role" id="modalRole"></div>
     <div class="modal-name" id="modalName"></div>
     <div class="modal-divider"></div>
     <div class="modal-desc" id="modalDesc"></div>
   </div>
 </div>
-
+ 
 <!-- ===== CTA FINAL ===== -->
 <section class="cta-final" id="contacto">
   <div class="reveal">
@@ -1208,71 +1210,71 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- ===== FOOTER ===== -->
 <footer>
   <div class="footer-logo-wrap">
-    <img src="logo.svg" alt="NEURA" />
+    <img src="img/LOGO.png" alt="NEURA" />
     <div class="footer-logo">NEURA</div>
   </div>
   <p>Capítulo Estudiantil de Ingeniería en Sistemas Computacionales</p>
   <p>© 2026 NEURA · Hecho con ♥ por estudiantes para estudiantes</p>
   <div class="footer-meta">// SYSTEM ONLINE · v1.0 · STATUS: READY</div>
 </footer>
-
+ 
 <script>
   /* ============ MESA DIRECTIVA DATA ============ */
   const team = [
     {
       role: "Presidenta",
       name: "Guadalupe Rubí Cárdenas Perales",
-      photo: "logo.svg",
-      desc: "Lidera con visión y compromiso a la planilla NEURA. Apasionada por crear un capítulo más cercano y participativo, donde cada estudiante encuentre un espacio para crecer académica y personalmente. Su objetivo es construir una comunidad fuerte, unida y orientada al desarrollo tecnológico."
+      photo: "img/Rubi.jpeg",
+      desc: "Soy Rubí Cárdenas, estudiante de sexto semestre de Ingeniería en Sistemas Computacionales y candidata a presidenta de la planilla NEURA 💙💜\n\nMe considero una persona alegre, curiosa y siempre dispuesta a aprender y aportar nuevas ideas. Me gusta involucrarme en actividades, convivir con las personas y crear espacios donde más estudiantes se sientan motivados a participar y crecer.\n\nFormar parte de la mesa directiva pasada me permitió conocer de cerca cómo funciona el capítulo y entender mejor las necesidades de nuestra comunidad estudiantil. Gracias a esa experiencia, hoy quiero aportar mi compromiso, creatividad y entusiasmo para impulsar nuevas oportunidades para todos.\n\nEn NEURA creemos en la importancia del networking y en darle visibilidad al gran talento que existe en sistemas. Queremos construir una comunidad más unida, activa e inclusiva, donde las ideas, los proyectos y las conexiones ayuden a cada estudiante a crecer tanto académica como profesionalmente.\n\nPorque en NEURA creemos en conectar ideas, creando futuro."
     },
     {
       role: "Vicepresidenta",
       name: "Ana Gabriela Guevara Martinez",
-      photo: "logo.svg",
+      photo: "img/Gabi.jpeg",
       desc: "Apoya la dirección estratégica del capítulo y se asegura de que cada propuesta avance con orden y propósito. Promueve la organización, el trabajo en equipo y la comunicación efectiva entre todos los integrantes para alcanzar los objetivos planteados."
     },
     {
       role: "Secretaria",
       name: "Ana Sofia Villareal Guajardo",
-      photo: "logo.svg",
-      desc: "Encargada del registro, documentación y seguimiento de las actividades del capítulo. Su atención al detalle y organización son clave para mantener al equipo y a la comunidad estudiantil informada de cada paso que damos."
+      photo: "img/Sofi.jpeg",
+      desc: "Hola, soy Ana Sofia, actualmente curso mi sexto semestre. Pertenezco a la planilla NEURA, lo cual me hace muy feliz porque sé que somos un equipo que buscará trabajar por el bien y la mejora educativa de toda nuestra comunidad.\n\nMe considero una persona capaz y dedicada a las tareas que se me presenten, siempre dispuesta a escuchar a cualquier persona que se me acerque y a seguir aprendiendo nuevas cosas.\n\nTengo experiencia elaborando eventos, concursos y diferentes actividades, ya que he formado parte de dos mesas directivas dentro del instituto, lo cual me ayudó a desempeñar mejor mis habilidades y comprender nuevas cosas."
     },
     {
       role: "Secretaria",
       name: "Dariana Monserrat Melchor Hernandez",
-      photo: "logo.svg",
-      desc: "Trabaja de la mano con la mesa directiva en la planeación y registro de las actividades. Su compromiso con el orden y la comunicación clara hace que la información llegue a todos los estudiantes de manera puntual y eficiente."
+      photo: "img/Dari.jpeg",
+      desc: "Holaaa, mi nombre es Dariana Melchor y actualmente curso 2° semestre. 👩🏻‍💻\n\nEstoy muy emocionada de formar parte de este proyecto como candidata a Secretaria por parte de la Planilla NEURA. 🩵💜\n\nDecidí unirme porque me gustaría aportar algo positivo a la comunidad, ser alguien con quien puedan acercarse con confianza y ayudar a que todos se sientan incluidos y escuchados. 🫶\n\nTambién quiero representar a los semestres más nuevos, porque sé lo importante que es sentir que tienes un espacio desde el inicio. ✨\n\nAdemás, soy Técnico en Informática, lo que me ha ayudado a desarrollar habilidades como organización, responsabilidad y trabajo en equipo. 💻\n\nEsperamos contar con su apoyo. 🩵💜"
     },
     {
       role: "Coordinador de Vinculación",
       name: "Luis Emiliano García Sifuentes",
-      photo: "logo.svg",
-      desc: "Construye puentes entre el capítulo, las empresas y las oportunidades del entorno tecnológico. Gestiona visitas industriales, alianzas y conexiones que acercan a los estudiantes al mundo profesional y a su futuro laboral."
+      photo: "img/Luis.jpeg",
+      desc: "¡Qué tal! Soy Emiliano, estudiante de sexto semestre. Me entusiasma mucho formar parte de la planilla NEURA, ya que somos un equipo convencido de que podemos elevar el nivel educativo y el bienestar de todos en nuestra comunidad.\n\nSoy alguien que disfruta los retos y se entrega al máximo en cada proyecto; me gusta escuchar las ideas de los demás y siempre busco la oportunidad de aprender algo nuevo.\n\nGracias a mi experiencia previa organizando eventos y concursos en el instituto, he desarrollado la visión necesaria para el área de Vinculación. Mi objetivo es aprovechar ese aprendizaje para crear mejores puentes y oportunidades que beneficien a todos mis compañeros."
     },
     {
       role: "Coordinadora de Redes Sociales",
       name: "Ángela Penélope Marín López",
-      photo: "logo.svg",
+      photo: "img/Angela.jpeg",
       desc: "Lleva la voz digital de NEURA. Diseña, publica y mantiene una comunicación constante a través de las redes sociales, asegurando que cada evento, convocatoria y logro del capítulo llegue a toda la comunidad estudiantil."
     },
     {
       role: "Coordinador de Planeación",
       name: "Federico Pérez Errisuriz",
-      photo: "logo.svg",
-      desc: "Responsable de planear, calendarizar y dar seguimiento a las actividades del capítulo. Su enfoque estructurado y proactivo permite que cada propuesta se ejecute en tiempo y forma, con resultados de calidad."
+      photo: "img/Fede.jpeg",
+      desc: "¡Hola a todos! Soy Federico Pérez y ando en sexto semestre de Sistemas Computacionales. Me metí a esta planilla porque me interesa participar más en lo que pasa dentro de la escuela y aportar en cosas que sí se noten.\n\nMe gusta involucrarme en los proyectos y trabajar en equipo, ya que considero que cuando hay buena comunicación se pueden lograr mejores resultados. También valoro escuchar diferentes ideas antes de tomar decisiones.\n\nLa idea es estar presente y apoyar en lo que haga falta, buscando que las actividades salgan bien y que todos nos sintamos parte del proceso."
     },
     {
       role: "Coordinador de Logística",
       name: "Diego Rodriguez Sanchezverin",
-      photo: "logo.svg",
-      desc: "Se encarga de que todo esté listo para que cada evento, taller o concurso salga perfecto. Coordina espacios, recursos y detalles operativos para que la experiencia de los estudiantes sea siempre la mejor."
+      photo: "img/Diego.jpeg",
+      desc: "Soy Diego, estudiante de tercer semestre. Me gusta mucho leer, aprender cosas nuevas y conocer gente, que es la principal razón por la que decidí formar parte del capítulo. Yo soy quien edita los videos jeje, pero ahora espero entrar en una nueva era como encargado de Logística, con el objetivo de que todo lo que se realice sea de la mejor manera."
     }
   ];
-
+ 
   /* Render team cards */
   const teamGrid = document.getElementById('teamGrid');
   team.forEach((member, i) => {
@@ -1290,7 +1292,7 @@
     card.addEventListener('click', () => openModal(member));
     teamGrid.appendChild(card);
   });
-
+ 
   /* Modal logic */
   const modalOverlay = document.getElementById('modalOverlay');
   const modalClose = document.getElementById('modalClose');
@@ -1298,7 +1300,7 @@
   const modalRole = document.getElementById('modalRole');
   const modalName = document.getElementById('modalName');
   const modalDesc = document.getElementById('modalDesc');
-
+ 
   function openModal(member) {
     modalPhoto.src = member.photo;
     modalPhoto.alt = member.name;
@@ -1308,12 +1310,12 @@
     modalOverlay.classList.add('open');
     document.body.classList.add('no-scroll');
   }
-
+ 
   function closeModal() {
     modalOverlay.classList.remove('open');
     document.body.classList.remove('no-scroll');
   }
-
+ 
   modalClose.addEventListener('click', closeModal);
   modalOverlay.addEventListener('click', (e) => {
     if (e.target === modalOverlay) closeModal();
@@ -1321,7 +1323,7 @@
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
   });
-
+ 
   /* ============ BOOT ANIMATION ============ */
   const bootLines = [
     { text: "[BOOT] Initializing NEURA system...", cls: "" },
@@ -1342,12 +1344,12 @@
     { text: "[OK]   Welcome, estudiante!", cls: "brand" },
     { text: "[INFO] Launching NEURA interface...", cls: "" },
   ];
-
+ 
   const bootOutput = document.getElementById('boot-output');
   const bootScreen = document.getElementById('boot-screen');
   const bootLogo = document.getElementById('bootLogo');
   const bootBarWrap = document.getElementById('bootBarWrap');
-
+ 
   let bootIdx = 0;
   function nextBootLine() {
     if (bootIdx >= bootLines.length) {
@@ -1373,7 +1375,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     setTimeout(nextBootLine, 400);
   });
-
+ 
   /* ============ NAVBAR SCROLL ============ */
   const navbar = document.getElementById('navbar');
   let scrollTicking = false;
@@ -1387,13 +1389,13 @@
       scrollTicking = true;
     }
   });
-
+ 
   /* ============ MOBILE MENU ============ */
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
   menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
-
+ 
   /* ============ SCROLL REVEAL (smoother) ============ */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1403,22 +1405,22 @@
       }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -80px 0px' });
-
+ 
   // Observe initial elements
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
   // Observe member cards added by JS
   document.querySelectorAll('.member-card').forEach(el => revealObserver.observe(el));
-
+ 
   /* ============ PARALLAX FOR ORBS (smoother with lerp) ============ */
   let mouseX = 0, mouseY = 0;
   let orbX = [0, 0, 0], orbY = [0, 0, 0];
   const orbs = document.querySelectorAll('.glow-orb');
-
+ 
   document.addEventListener('mousemove', (e) => {
     mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
     mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
   });
-
+ 
   function animateOrbs() {
     orbs.forEach((orb, i) => {
       const factor = (i + 1) * 0.5;
@@ -1432,6 +1434,6 @@
   }
   animateOrbs();
 </script>
-
+ 
 </body>
 </html>
